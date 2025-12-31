@@ -3,7 +3,7 @@
 # Anti-VM: Hardware Encoder 기반 Sandbox 회피 기법
 
 <p align="center">
-  <img src="../images/social-preview.png" width="800">
+  <img src="../images/social-preview.png" width="600" height="400">
 </p>
 
 ![토픽](https://img.shields.io/badge/topics-anti--vm%20%7C%20bypass--sandbox%20%7C%20bypass--vm%20%7C%20windows-blue)
