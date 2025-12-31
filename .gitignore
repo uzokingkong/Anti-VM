@@ -4,9 +4,6 @@ Cargo.lock
 **/*.rs.bk
 *.pdb
 
-# Auto-generated files
-src/chunks.rs
-
 # Payload (user should provide their own)
 payload.exe
 
