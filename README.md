@@ -50,7 +50,123 @@ This completes a **functional verification** that is difficult to bypass with si
 
 ---
 
-## 🧪 PoC Test Results
+## Building the Loader
+
+This repository contains a fully functional stealth PE loader with the following features:
+
+### Features
+
+- **String Obfuscation**: Compile-time string encryption using `obfstr`
+- **VM Detection**: Hardware-based virtual machine detection via Media Foundation API
+- **XOR Encryption**: Payload obfuscation with XOR cipher
+- **Random Seeding**: Unique obfuscation seed per build
+- **Static Linking**: No external DLL dependencies (VCRUNTIME140.dll included)
+- **Optimized**: LTO enabled, size optimization, and symbol stripping
+
+### Build Requirements
+
+- **Rust** (latest stable)
+- **Windows** (x64)
+- **MSVC** build tools
+
+### Quick Start
+
+#### 1. Place Your Payload
+
+Copy your executable to the project root as `payload.exe`:
+
+```powershell
+copy your_program.exe payload.exe
+```
+
+#### 2. Build
+
+```powershell
+cargo build --release
+```
+
+#### 3. Use the Loader
+
+The final loader will be at:
+```
+target\x86_64-pc-windows-msvc\release\perfect_stealth_loader.exe
+```
+
+### Project Structure
+
+```
+ANTI-VM/
+├── .cargo/
+│   └── config.toml          # Static CRT linking config
+├── src/
+│   ├── main.rs              # Loader logic
+│   └── chunks.rs            # Auto-generated (don't commit)
+├── test_payload/            # Example payload
+│   ├── src/
+│   │   └── main.rs
+│   └── Cargo.toml
+├── images/                  # Screenshots
+├── korean/                  # Korean documentation
+├── build.rs                 # Payload obfuscator
+├── Cargo.toml               # Dependencies & optimizations
+├── .gitignore
+├── LICENSE
+└── README.md
+```
+
+### Configuration
+
+#### Release Profile (Cargo.toml)
+
+```toml
+[profile.release]
+opt-level = "z"          # Size optimization
+lto = true               # Link-time optimization
+codegen-units = 1        # Single codegen unit
+panic = "abort"          # Remove panic info
+strip = true             # Strip debug symbols
+```
+
+#### Static Linking (.cargo/config.toml)
+
+```toml
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]
+```
+
+### Example: test_payload
+
+The repository includes an example payload that creates `helloworld.txt`:
+
+```rust
+use std::fs::File;
+use std::io::Write;
+
+fn main() {
+    let mut file = File::create("helloworld.txt").unwrap();
+    file.write_all(b"Hello from stealth loader!").unwrap();
+}
+```
+
+Build and test:
+
+```powershell
+cd test_payload
+cargo build --release
+copy target\x86_64-pc-windows-msvc\release\test_payload.exe ..\payload.exe
+cd ..
+cargo build --release
+```
+
+### Important Notes
+
+- Every time you change `payload.exe`, rebuild with `cargo clean && cargo build --release` to generate a new random seed
+- The loader will **exit immediately** in VM environments without executing the payload
+- Binary size: ~500 KB (with all optimizations)
+
+---
+
+## PoC Test Results
 
 To verify the effectiveness of the technique, I created a loader containing an actual malware payload and uploaded it to a total of **four automated analysis sandboxes, including Any.Run**, for testing.
 
@@ -121,3 +237,9 @@ This technique is not a silver bullet, and the following limitations exist:
 ### Conclusion
 
 This document is a technical analysis and recommendation for a **new Anti-VM technique based on hardware functional execution** that I personally discovered and implemented.
+
+---
+
+**⚠️ Reminder**: This project is for educational and security research purposes only. Always follow responsible disclosure and ethical guidelines.
+
+

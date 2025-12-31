@@ -1,0 +1,33 @@
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+*.pdb
+
+# Auto-generated files
+src/chunks.rs
+
+# Payload (user should provide their own)
+payload.exe
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Build artifacts
+*.exe
+!test_payload.exe
+*.dll
+*.so
+*.dylib
+
+# Logs
+*.log
