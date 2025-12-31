@@ -2,6 +2,8 @@
 
 # Anti-VM: Sandbox Evasion Technique Based on Hardware Encoder
 
+![Topics](https://img.shields.io/badge/topics-anti--vm%20%7C%20bypass--sandbox%20%7C%20bypass--vm%20%7C%20windows-blue)
+
 > ⚠️ **Disclaimer**
 > This document is for educational and security research purposes only. Misusing the techniques described herein on unauthorized systems is illegal, and all responsibility lies with the user.
 
@@ -228,7 +230,11 @@ The loader was written in the **Rust language**. Rust's unique binary structure 
 
 This technique is not a silver bullet, and the following limitations exist:
 
-### 1. False Positives in Actual Server Environments
+### 1. Windows 10 or Later Required
+
+This technique uses the **Windows Media Foundation Transform (MFT)** API and **only works properly on Windows 10 or later**. On Windows 7/8, MFT enumeration results may differ, potentially causing malfunctions.
+
+### 2. False Positives in Actual Server Environments
 
 **Physical servers (DCs, file servers, etc.)** without GPUs may be mistaken for VMs. Therefore, it is not suitable for scenarios targeting server infrastructure.
 

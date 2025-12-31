@@ -2,6 +2,8 @@
 
 # Anti-VM: Hardware Encoder 기반 Sandbox 회피 기법
 
+![토픽](https://img.shields.io/badge/topics-anti--vm%20%7C%20bypass--sandbox%20%7C%20bypass--vm%20%7C%20windows-blue)
+
 > ⚠️ **면책 조항**
 > 본 문서는 교육 및 보안 연구 목적으로만 작성되었습니다. 본문에 기술된 기법을 허가받지 않은 시스템에서 악용하는 것은 불법이며 발생하는 모든 책임은 사용자에게 있습니다.
 
@@ -232,7 +234,11 @@ cargo build --release
 
 이 기법 역시 만능은 아니며, 다음과 같은 한계가 존재합니다.
 
-### 1. 실제 서버 환경 오탐지
+### 1. Windows 10 이상 요구
+
+이 기법은 **Windows Media Foundation Transform (MFT)** API를 사용하므로 **Windows 10 이상**에서만 정상적으로 동작합니다. Windows 7/8에서는 MFT 열거 결과가 다를 수 있어 오작동할 가능성이 있습니다.
+
+### 2. 실제 서버 환경 오탐지
 
 GPU가 없는 **물리 서버(DC, 파일 서버 등)** 는 VM으로 오인될 수 있습니다. 따라서 서버 인프라를 주요 공격 대상으로 삼는 시나리오에는 적합하지 않습니다.
 
